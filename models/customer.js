@@ -81,15 +81,16 @@ class Customer {
 
   /** get a customer by name. */
 
-  static async getByName(name) {
+  static async getByName(name1, name2) {
     const results = await db.query(
           `SELECT id,
          first_name AS "firstName",
          last_name AS "lastName",
          phone,
          notes
-        FROM customers WHERE first_name = $1`,
-        [name]
+        FROM customers WHERE first_name = $1
+        OR first_name = $2 OR last_name = $1 OR last_name = $2`,
+        [name1, name2]
     );
 
     const customers = results.rows;

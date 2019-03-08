@@ -24,7 +24,10 @@ router.get("/", async function (req, res, next) {
 router.get("/search", async function (req, res, next){
   try {
     const name = req.query.search;
-    const customers = await Customer.getByName(name);
+    const names = name.split(' ');
+    let name1 = names[0][0].toUpperCase() + names[0].slice(1);
+    let name2 = names[1][0].toUpperCase() + names[1].slice(1);
+    const customers = await Customer.getByName(name1, name2);
     return res.render("customer_list.html", {customers});
   }
 

@@ -25,6 +25,10 @@ class Customer {
     return this._notes;
   }
 
+  get fullname() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
   /** methods for getting/setting phone #. */
 
   set phone(val) {
@@ -39,10 +43,10 @@ class Customer {
 
   static async all() {
     const results = await db.query(
-          `SELECT id, 
-         first_name AS "firstName",  
-         last_name AS "lastName", 
-         phone, 
+          `SELECT id,
+         first_name AS "firstName",
+         last_name AS "lastName",
+         phone,
          notes
        FROM customers
        ORDER BY last_name, first_name`
@@ -54,11 +58,11 @@ class Customer {
 
   static async get(id) {
     const results = await db.query(
-          `SELECT id, 
-         first_name AS "firstName",  
-         last_name AS "lastName", 
-         phone, 
-         notes 
+          `SELECT id,
+         first_name AS "firstName",
+         last_name AS "lastName",
+         phone,
+         notes
         FROM customers WHERE id = $1`,
         [id]
     );

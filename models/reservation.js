@@ -57,12 +57,12 @@ class Reservation {
 
   static async getReservationsForCustomer(customerId) {
     const results = await db.query(
-          `SELECT id, 
-           customer_id AS "customerId", 
-           num_guests AS "numGuests", 
-           start_at AS "startAt", 
+          `SELECT id,
+           customer_id AS "customerId",
+           num_guests AS "numGuests",
+           start_at AS "startAt",
            notes AS "notes"
-         FROM reservations 
+         FROM reservations
          WHERE customer_id = $1`,
         [customerId]
     );
@@ -71,5 +71,6 @@ class Reservation {
   }
 }
 
+// TODO add reservation save() function
 
 module.exports = Reservation;

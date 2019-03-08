@@ -31,6 +31,19 @@ class Reservation {
     return moment(this.startAt).format('MMMM Do YYYY, h:mm a');
   }
 
+  get formattedStartAtInput() {
+    return moment(this.startAt).format('YYYY-MM-DD hh:mm a');
+  }
+
+  set numGuests(val) {
+    if (!isNaN(val) && val >= 1) this._numGuests = val;
+    else throw new Error("Can't make reservation for less than 1.");
+  }
+
+  get numGuests() {
+    return this._numGuests;
+  }
+
   /** methods for setting/getting notes (keep as a blank string, not NULL) */
 
   set notes(val) {
@@ -69,15 +82,16 @@ class Reservation {
 
     return results.rows.map(row => new Reservation(row));
   }
+
   async save() {
-    if (this.id === undefined) {
+    if (this.numGuests >= 1) {
       const result = await db.query(
             `INSERT INTO reservations (customer_id, start_at, num_guests, notes)
              VALUES ($1, $2, $3, $4)
              RETURNING id`,
-          [this.customerId, this.startAt, this.numGuests, this.notes]);
+          [this.customerId, this.formattedStartAtInput, this.numGuests, this.notes]);
       this.id = result.rows[0].id;
-    } 
+    }
     // else {
     //   await db.query(
     //         `UPDATE reservations SET customer_id=$1, last_name=$2, phone=$3, notes=$4)

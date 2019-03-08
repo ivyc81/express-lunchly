@@ -21,6 +21,17 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+router.get("/search", async function (req, res, next){
+  try {
+    const name = req.query.search;
+    const customers = await Customer.getByName(name);
+    return res.render("customer_list.html", {customers});
+  }
+
+  catch(err) {
+    return next(err);
+  }
+});
 
 /** Form to add a new customer. */
 
@@ -129,6 +140,7 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
     return next(err);
   }
 });
+
 
 
 module.exports = router;

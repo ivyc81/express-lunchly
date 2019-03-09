@@ -112,6 +112,19 @@ class Customer {
     return await Reservation.getReservationsForCustomer(this.id);
   }
 
+  static async getTopCustomers(numCustomers=10) {
+    const result = await db.query(
+          `SELECT customers.id, first_name AS "firstName", last_name AS "lastName"
+            FROM customers 
+            JOIN reservations 
+            ON customer_id = customers.id 
+            GROUP BY customers.id 
+            ORDER BY COUNT(reservations.id) DESC 
+          LIMIT $1`, 
+          [numCustomers]
+    );
+    return result.rows.map(c => new Customer(c));
+  }
   /** save this customer. */
 
   async save() {

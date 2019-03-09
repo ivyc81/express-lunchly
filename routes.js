@@ -69,6 +69,16 @@ router.post("/add/", async function (req, res, next) {
   }
 });
 
+router.get("/topCustomers", async function (req, res, next){
+  try {
+
+    const customers = await Customer.getTopCustomers();
+    return res.render("customer_list.html", {customers});
+
+  } catch (err) {
+    return next(err);
+  }
+})
 
 /** Show a customer, given their ID. */
 

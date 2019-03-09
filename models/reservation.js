@@ -28,7 +28,8 @@ class Reservation {
   }
 
   get formattedStartAt() {
-    return moment(this.startAt).format('MMMM Do YYYY, h:mm a');
+    // return moment(this.startAt).format('MMMM Do YYYY, h:mm a');
+    return moment(this.startAt).fromNow();
   }
 
   get formattedStartAtInput() {

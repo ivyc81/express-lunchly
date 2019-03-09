@@ -84,11 +84,21 @@ router.get("/topCustomers", async function (req, res, next){
 
 router.get("/:id/", async function (req, res, next) {
   try {
+    const currTime = new Date();
+
     const customer = await Customer.get(req.params.id);
 
     const reservations = await customer.getReservations();
+    const partitionedReservations = reservations.reduce(function(result, element, i) {
+      element.startAt > currTime
+        ? result[0].push(element)
+        : result[1].push(element);
 
-    return res.render("customer_detail.html", {customer, reservations})
+          return result;
+        }, [[],[]]
+      );
+
+    return res.render("customer_detail.html", {customer, partitionedReservations})
   }
 
   catch (err) {

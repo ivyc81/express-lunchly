@@ -16,11 +16,22 @@
     <p><a class="btn btn-primary" href="/{{ customer.id }}/edit/">Edit</a></p>
 
     <h2>Reservations</h2>
-    {% if reservations %}
+    {% if partitionedReservations[0].length %}
     <ul>
-      {% for reservation in reservations %}
+      {% for reservation in partitionedReservations[0] %}
       <li><b>{{ reservation.formattedStartAt }}</b> for {{ reservation.numGuests }}</li>
       {% endfor %}
+    </ul>
+    {% else %}
+    <p>None!</p>
+    {% endif %}
+
+    <h2>Passed Reservations</h2>
+    {% if partitionedReservations[1].length %}
+    <ul>
+        {% for reservation in partitionedReservations[1] %}
+        <li><b>{{ reservation.formattedStartAt }}</b> for {{ reservation.numGuests }}</li>
+        {% endfor %}
     </ul>
     {% else %}
     <p>None!</p>
